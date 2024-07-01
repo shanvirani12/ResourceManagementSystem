@@ -1,0 +1,26 @@
+AVD Resource Management Software
+
+Masle:
+Resource ki quantity
+Resource ki location
+Agar resource hmne dia hua hai to kisko dia, kb dia or kb wapis aega yeh nhi maloom.
+Resource ki booking
+Booking ka status
+
+
+
+API( Backend )
+
+Resource: ID, Name, Quantity, LocationID.
+Location: ID, Name.
+Booking: ID, PersonName, ContactNumber, CollectionDate, ReturnDate, Status, Class/Dept
+BookingResource: BookingID, ResourceID.
+
+Explaination
+Resource Model: Represents a resource that can be booked, with properties such as Name, Quantity, and LocationId. It has a navigation property Location to link to the Location entity.
+
+Location Model: Represents a location where resources are stored or available. It includes properties like Name and has a navigation property Resources to list all resources associated with that location.
+
+Booking Model: Represents a booking made by a person, including details such as PersonName, ContactNumber, CollectionDate, ReturnDate, Status, and ClassOrDept. It has a collection navigation property BookingResources to link to the resources booked in that particular booking.
+
+BookingResource Model: Acts as a bridge entity to represent the many-to-many relationship between Booking and Resource. It contains foreign keys (BookingId and ResourceId) to link bookings with the resources they have booked.
