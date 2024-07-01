@@ -24,3 +24,23 @@ Location Model: Represents a location where resources are stored or available. I
 Booking Model: Represents a booking made by a person, including details such as PersonName, ContactNumber, CollectionDate, ReturnDate, Status, and ClassOrDept. It has a collection navigation property BookingResources to link to the resources booked in that particular booking.
 
 BookingResource Model: Acts as a bridge entity to represent the many-to-many relationship between Booking and Resource. It contains foreign keys (BookingId and ResourceId) to link bookings with the resources they have booked.
+
+
+POST /resources
+GET /resources
+GET /resources/{id}
+PUT /resources/{id}
+DELETE /resources/{id}
+GET /resources/{id}/availability
+POST /locations
+GET /locations
+GET /locations/{id}
+PUT /locations/{id}
+DELETE /locations/{id}
+POST /bookings
+GET /bookings
+GET /bookings/{id}
+PUT /bookings/{id}
+DELETE /bookings/{id}
+POST /bookings/{bookingId}/resources/{resourceId}
+DELETE /bookings/{bookingId}/resources/{resourceId}

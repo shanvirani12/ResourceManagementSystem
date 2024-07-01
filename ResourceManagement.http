@@ -1,0 +1,27 @@
+###Get Resources
+GET http://localhost:5229/resources
+
+###Get Resource by ID
+GET http://localhost:5229/resources/6
+
+### Create a new Resource
+POST http://localhost:5229/resources
+Content-Type: application/json
+
+{
+  "name": "Speakers",
+  "quantity": 5,
+  "locationId": 2
+}
+
+### Update a Resource
+PUT http://localhost:5229/resources/7
+Content-Type: application/json
+
+{
+  "name": "Multimedia",
+  "quantity": 100
+}
+
+###Delete Resource by ID
+DELETE http://localhost:5229/resources/1
