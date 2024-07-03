@@ -2,26 +2,27 @@
 GET http://localhost:5229/resources
 
 ###Get Resource by ID
-GET http://localhost:5229/resources/6
+GET http://localhost:5229/resources/5
 
 ### Create a new Resource
 POST http://localhost:5229/resources
 Content-Type: application/json
 
 {
-  "name": "Speakers",
+  "name": "Hats",
   "quantity": 5,
   "locationId": 2
 }
 
 ### Update a Resource
-PUT http://localhost:5229/resources/7
+PUT http://localhost:5229/resources/5
 Content-Type: application/json
 
 {
-  "name": "Multimedia",
-  "quantity": 100
+  "name": "Tshirts and bags",
+  "quantity": 50,
+  "locationId": 2
 }
 
 ###Delete Resource by ID
-DELETE http://localhost:5229/resources/1
+DELETE http://localhost:5229/resources/5

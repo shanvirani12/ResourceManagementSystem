@@ -1,4 +1,6 @@
-﻿using ResourceManagementSystem.Data;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
+using ResourceManagementSystem.Data;
 using ResourceManagementSystem.Dtos;
 using ResourceManagementSystem.Entities;
 
@@ -26,12 +28,14 @@ namespace ResourceManagementSystem.EndPoints
         public static WebApplication MapResourcesEndpoints(this WebApplication app)
         {
             // GET /resources
-            app.MapGet("resources", () => resources);
+            app.MapGet("resources", (ResourceManagementContext dbContext) =>
+            dbContext.Resources.Include(r => r.Location).ToListAsync()
+                     );
 
             // GET /resources/1
-            app.MapGet("resources/{id}", (int id) =>
+            app.MapGet("resources/{id}", (int id, ResourceManagementContext dbContext) =>
             {
-                ResourceDto? resource = resources.Find(resource => resource.Id == id);
+                Resource? resource = dbContext.Resources.Find(id);
 
                 return resource is null ? Results.NotFound() : Results.Ok(resource);
             }).WithName(GetResourceEndpointName);
@@ -57,30 +61,58 @@ namespace ResourceManagementSystem.EndPoints
             });
 
             // PUT /resources/1
-            app.MapPut("resources/{id}", (int id, UpdateResourceDto updatedResource) =>
+            app.MapPut("resources/{id}", async (int id, UpdateResourceDto updatedResource, ResourceManagementContext dbContext) =>
             {
-                var index = resources.FindIndex(resource => resource.Id == id);
+                var existingResource = await dbContext.Resources.FindAsync(id);
 
-                if (index == -1)
+                if (existingResource == null)
                 {
-                    Results.NotFound();
+                    return Results.NotFound();
                 }
 
-                resources[index] = new ResourceDto(
-                    id,
-                    updatedResource.Name,
-                    updatedResource.Quantity,
-                    updatedResource.LocationId
-                    
-                );
+                // Update properties of the existing resource
+                existingResource.Name = updatedResource.Name;
+                existingResource.Quantity = updatedResource.Quantity;
+                existingResource.LocationID = updatedResource.LocationId;
+
+                try
+                {
+                    await dbContext.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ResourceExists(id, dbContext))
+                    {
+                        return Results.NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
 
                 return Results.NoContent();
             });
 
-            // DELETE /resource/1
-            app.MapDelete("resources/{id}", (int id) =>
+            // Helper method to check if the resource exists
+            bool ResourceExists(int id, ResourceManagementContext dbContext)
             {
-                resources.RemoveAll(resource => resource.Id == id);
+                return dbContext.Resources.Any(e => e.Id == id);
+            }
+
+
+            // DELETE /resource/1
+            app.MapDelete("resources/{id}",async (int id, ResourceManagementContext dbContext) =>
+            {
+                var resource = await dbContext.Resources.FindAsync(id);
+                
+                if(resource == null)
+                {
+                    return Results.NotFound();
+                }
+
+                dbContext.Resources.Remove(resource);
+                await dbContext.SaveChangesAsync();
 
                 return Results.NoContent();
             });
