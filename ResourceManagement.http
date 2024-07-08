@@ -30,3 +30,27 @@ DELETE http://localhost:5229/resources/5
 
 ###Get Locations
 GET http://localhost:5229/locations
+
+###Get Locations by ID
+GET http://localhost:5229/locations/2
+
+### Post Location
+POST http://localhost:5229/locations
+Content-Type: application/json
+
+{
+  "name": "Compartment 22"
+}
+
+### Update a location
+PUT http://localhost:5229/locations/7
+Content-Type: application/json
+
+{
+  "name": "Compartment No 22"
+}
+
+###Delete Resource by ID
+DELETE http://localhost:5229/locations/6
+
+
