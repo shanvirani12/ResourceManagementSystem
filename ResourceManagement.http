@@ -26,3 +26,7 @@ Content-Type: application/json
 
 ###Delete Resource by ID
 DELETE http://localhost:5229/resources/5
+
+
+###Get Locations
+GET http://localhost:5229/locations
