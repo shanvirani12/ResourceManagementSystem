@@ -8,6 +8,8 @@ namespace ResourceManagementSystem.Data
     {
         public DbSet<Resource> Resources => Set<Resource>();
         public DbSet<Location> Locations => Set<Location>();
+        public DbSet<Booking> Bookings => Set<Booking>();
+        public DbSet<BookingResource> BookingResources => Set<BookingResource>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

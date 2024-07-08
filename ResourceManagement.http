@@ -53,4 +53,22 @@ Content-Type: application/json
 ###Delete Resource by ID
 DELETE http://localhost:5229/locations/6
 
+###Get Bookings
+GET http://localhost:5229/Bookings
 
+###POST Bookings
+POST http://localhost:5229/Bookings
+Content-Type: application/json
+
+{
+  "newBooking": {
+    "personName": "John Doe",
+    "contactNumber": "123-456-7890",
+    "collectionDate": "2024-07-10",
+    "returnDate": "2024-07-15",
+    "class_dept": "Engineering"
+  },
+  "resource": {
+    "Id": 1
+  }
+}

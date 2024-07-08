@@ -10,6 +10,7 @@ var app = builder.Build();
 
 app.MapResourcesEndpoints();
 app.MapLocationsEndpoints();
+app.MapBookingsEndpoints();
 
 app.MigrateDb();
 
